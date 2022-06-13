@@ -8,6 +8,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -16,6 +17,8 @@ class UserController extends Controller
 
     public function index()
     {
+        abort_unless(Gate::allows('users_index'), 403);
+
         return view('admin.users.index', [
             'users' => User::query()->orderBy('id', 'ASC')->get(),
             'breadcrumbs' => $this->generateBreadcrumbs(),
@@ -24,6 +27,8 @@ class UserController extends Controller
 
     public function create()
     {
+        abort_unless(Gate::allows('users_create'), 403);
+
         $page_title = 'Add User';
 
         return view('admin.users.create', [
@@ -35,6 +40,8 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request, UserService $user_service)
     {
+        abort_unless(Gate::allows('users_create'), 403);
+
         $user_service->createUser($request);
 
         return redirect(route('admin.users.index'))
@@ -43,6 +50,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        abort_unless(Gate::allows('users_edit'), 403);
+
         $page_title = 'Edit User';
 
         return view('admin.users.edit', [
@@ -56,6 +65,8 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user, UserService $user_service)
     {
+        abort_unless(Gate::allows('users_edit'), 403);
+
         $user_service->updateUser($request, $user);
 
         return redirect(route('admin.users.edit', $user->id))
@@ -65,6 +76,8 @@ class UserController extends Controller
 
     public function destroy(User $user, UserService $user_service)
     {
+        abort_unless(Gate::allows('users_delete'), 403);
+
         $user_service->deleteUser($user);
 
         return redirect(route('admin.users.index'))
