@@ -33,6 +33,8 @@
                         @foreach ($pages as $page)
                             <tr>
                                 <td>{{ $page->title }}</td>
+                                <td class="text-center">{{ $page->published ? 'Yes' : 'No' }}</td>
+                                <td class="text-center">{{ $page->show_in_menu ? 'Yes' : 'No' }}</td>
                                 <td class="text-center">
                                     @if ($page->published)
                                         <a href="{{ $page->url }}" target="_blank">
@@ -42,8 +44,6 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $page->published ? 'Yes' : 'No' }}</td>
-                                <td class="text-center">{{ $page->show_in_menu ? 'Yes' : 'No' }}</td>
                                 @can('pages_edit')
                                     <td class="text-center">
                                         <a href="{{ route('admin.pages.edit', $page->id) }}"
