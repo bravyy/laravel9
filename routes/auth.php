@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => 'guest',
 ], function () {
-    Route::get('signup', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('signup', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
